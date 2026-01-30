@@ -1,0 +1,22 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Credenciais (manter local)
+Integracoes/
+
+# Arquivos grandes de mídia (opcional - descomentar se necessário)
+# *.mp4
+# *.mov
+# *.avi
+
+# Arquivos temporários
+*.tmp
+*.bak
+*~
