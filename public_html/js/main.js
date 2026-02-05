@@ -230,11 +230,12 @@
     }
 
     // ========================================
-    // Cursor Effect (Desktop only)
+    // Cursor Effect (Desktop only) - Enhanced
     // ========================================
     function initCursorEffect() {
         if (window.innerWidth < 768) return;
 
+        // Cursor principal (ponto dourado)
         const cursor = document.createElement('div');
         cursor.className = 'custom-cursor';
         cursor.style.cssText = `
@@ -245,11 +246,12 @@
             border-radius: 50%;
             pointer-events: none;
             z-index: 9999;
-            transition: transform 0.15s ease, opacity 0.15s ease;
+            transition: transform 0.15s ease, opacity 0.15s ease, width 0.3s ease, height 0.3s ease, background 0.3s ease;
             opacity: 0;
         `;
         document.body.appendChild(cursor);
 
+        // Cursor externo (anel)
         const cursorOuter = document.createElement('div');
         cursorOuter.className = 'custom-cursor-outer';
         cursorOuter.style.cssText = `
@@ -260,53 +262,182 @@
             border-radius: 50%;
             pointer-events: none;
             z-index: 9998;
-            transition: transform 0.3s ease, opacity 0.3s ease;
+            transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease, height 0.3s ease, border-radius 0.3s ease;
             opacity: 0;
         `;
         document.body.appendChild(cursorOuter);
 
+        // Texto contextual (Explorar, Ver mais, etc.)
+        const cursorText = document.createElement('div');
+        cursorText.className = 'custom-cursor-text';
+        cursorText.style.cssText = `
+            position: fixed;
+            pointer-events: none;
+            z-index: 9997;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #c9a962;
+            opacity: 0;
+            transform: translate(-50%, 20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            white-space: nowrap;
+        `;
+        document.body.appendChild(cursorText);
+
+        // Ícone de taça para vinhos
+        const cursorIcon = document.createElement('div');
+        cursorIcon.className = 'custom-cursor-icon';
+        cursorIcon.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c9a962" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 22h8"/>
+            <path d="M12 11v11"/>
+            <path d="M17 5c0 3.87-2.24 7-5 7s-5-3.13-5-7"/>
+            <path d="M5 2h14v3c0 4.97-3.13 9-7 9s-7-4.03-7-9V2z"/>
+        </svg>`;
+        cursorIcon.style.cssText = `
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.5);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        `;
+        document.body.appendChild(cursorIcon);
+
         let mouseX = 0, mouseY = 0;
         let cursorX = 0, cursorY = 0;
+        let currentState = 'default';
+
+        // Funções para mudar estado do cursor
+        function setCursorState(state, text = '') {
+            if (currentState === state) return;
+            currentState = state;
+
+            // Reset
+            cursor.style.width = '8px';
+            cursor.style.height = '8px';
+            cursor.style.background = '#c9a962';
+            cursor.style.borderRadius = '50%';
+            cursorOuter.style.width = '32px';
+            cursorOuter.style.height = '32px';
+            cursorOuter.style.borderRadius = '50%';
+            cursorOuter.style.borderColor = 'rgba(201, 169, 98, 0.5)';
+            cursorText.style.opacity = '0';
+            cursorIcon.style.opacity = '0';
+            cursorIcon.style.transform = 'translate(-50%, -50%) scale(0.5)';
+
+            switch(state) {
+                case 'wine':
+                    // Ícone de taça para cards de vinho
+                    cursor.style.opacity = '0';
+                    cursorOuter.style.width = '50px';
+                    cursorOuter.style.height = '50px';
+                    cursorOuter.style.borderColor = 'rgba(201, 169, 98, 0.8)';
+                    cursorIcon.style.opacity = '1';
+                    cursorIcon.style.transform = 'translate(-50%, -50%) scale(1)';
+                    break;
+
+                case 'explore':
+                    // Texto "Explorar" para seções
+                    cursor.style.transform = 'translate(-50%, -50%) scale(0.5)';
+                    cursorOuter.style.width = '80px';
+                    cursorOuter.style.height = '80px';
+                    cursorOuter.style.borderColor = 'rgba(201, 169, 98, 0.3)';
+                    cursorText.textContent = text || 'Explorar';
+                    cursorText.style.opacity = '1';
+                    break;
+
+                case 'drag':
+                    // Cursor de arrastar para timeline
+                    cursor.style.width = '4px';
+                    cursor.style.height = '16px';
+                    cursor.style.borderRadius = '2px';
+                    cursorOuter.style.width = '40px';
+                    cursorOuter.style.height = '40px';
+                    cursorText.textContent = 'Arraste';
+                    cursorText.style.opacity = '1';
+                    break;
+
+                case 'interactive':
+                    // Estado padrão para elementos clicáveis
+                    cursor.style.transform = 'translate(-50%, -50%) scale(2)';
+                    cursorOuter.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                    break;
+
+                default:
+                    cursor.style.opacity = '1';
+                    cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                    cursorOuter.style.transform = 'translate(-50%, -50%) scale(1)';
+            }
+        }
 
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
-            cursor.style.opacity = '1';
+            cursor.style.opacity = currentState === 'wine' ? '0' : '1';
             cursorOuter.style.opacity = '1';
         });
 
         document.addEventListener('mouseleave', () => {
             cursor.style.opacity = '0';
             cursorOuter.style.opacity = '0';
+            cursorText.style.opacity = '0';
+            cursorIcon.style.opacity = '0';
         });
 
-        // Interactive elements
-        const interactiveElements = document.querySelectorAll('a, button, input, textarea, select');
+        // Cards de vinho - ícone de taça
+        const wineCards = document.querySelectorAll('.vinho-card');
+        wineCards.forEach(el => {
+            el.addEventListener('mouseenter', () => setCursorState('wine'));
+            el.addEventListener('mouseleave', () => setCursorState('default'));
+        });
 
+        // Seções exploráveis - texto "Explorar"
+        const exploreSections = document.querySelectorAll('.hero-cta, .essencia-video, .timeline-card');
+        exploreSections.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                const text = el.classList.contains('essencia-video') ? 'Assistir' :
+                            el.classList.contains('timeline-card') ? 'Conhecer' : 'Explorar';
+                setCursorState('explore', text);
+            });
+            el.addEventListener('mouseleave', () => setCursorState('default'));
+        });
+
+        // Timeline - cursor de arrastar
+        const timelineItems = document.querySelectorAll('.timeline-image');
+        timelineItems.forEach(el => {
+            el.addEventListener('mouseenter', () => setCursorState('drag'));
+            el.addEventListener('mouseleave', () => setCursorState('default'));
+        });
+
+        // Elementos interativos padrão (links, botões)
+        const interactiveElements = document.querySelectorAll('a:not(.vinho-card a), button, input, textarea, select');
         interactiveElements.forEach(el => {
             el.addEventListener('mouseenter', () => {
-                cursor.style.transform = 'translate(-50%, -50%) scale(2)';
-                cursorOuter.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                if (currentState === 'default') setCursorState('interactive');
             });
-
             el.addEventListener('mouseleave', () => {
-                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-                cursorOuter.style.transform = 'translate(-50%, -50%) scale(1)';
+                if (currentState === 'interactive') setCursorState('default');
             });
         });
 
         // Animation loop
         function animateCursor() {
-            cursorX += (mouseX - cursorX) * 0.2;
-            cursorY += (mouseY - cursorY) * 0.2;
+            cursorX += (mouseX - cursorX) * 0.15;
+            cursorY += (mouseY - cursorY) * 0.15;
 
             cursor.style.left = mouseX + 'px';
             cursor.style.top = mouseY + 'px';
-            cursor.style.transform = 'translate(-50%, -50%)';
 
             cursorOuter.style.left = cursorX + 'px';
             cursorOuter.style.top = cursorY + 'px';
-            cursorOuter.style.transform = 'translate(-50%, -50%)';
+
+            cursorText.style.left = mouseX + 'px';
+            cursorText.style.top = mouseY + 'px';
+
+            cursorIcon.style.left = mouseX + 'px';
+            cursorIcon.style.top = mouseY + 'px';
 
             requestAnimationFrame(animateCursor);
         }
