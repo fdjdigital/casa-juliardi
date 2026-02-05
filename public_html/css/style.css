@@ -768,7 +768,7 @@ p {
 .timeline-image.breno {
     background: linear-gradient(135deg, rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url('../assets/images/breno-juliardi.jpg');
     background-size: cover;
-    background-position: center 5%;
+    background-position: center 20%;
 }
 
 .timeline-badge {
