@@ -544,6 +544,59 @@
     }
 
     // ========================================
+    // Storytelling Scroll Animation
+    // ========================================
+    function initStorytelling() {
+        const storyScenes = document.querySelectorAll('.story-scene');
+
+        if (!storyScenes.length) return;
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '-20% 0px -20% 0px',
+            threshold: 0.3
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-active');
+                } else {
+                    // Remove class when leaving viewport for re-animation
+                    entry.target.classList.remove('is-active');
+                }
+            });
+        }, observerOptions);
+
+        storyScenes.forEach(scene => {
+            observer.observe(scene);
+        });
+
+        // Parallax effect on scroll
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    storyScenes.forEach(scene => {
+                        const rect = scene.getBoundingClientRect();
+                        const scrollPercent = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+
+                        if (scrollPercent > 0 && scrollPercent < 1) {
+                            const bg = scene.querySelector('.story-bg');
+                            if (bg) {
+                                const parallaxOffset = (scrollPercent - 0.5) * 50;
+                                bg.style.transform = `scale(1.1) translateY(${parallaxOffset}px)`;
+                            }
+                        }
+                    });
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+    }
+
+    // ========================================
     // Initialize Everything
     // ========================================
     function init() {
@@ -578,6 +631,7 @@
         initRevealOnScroll();
         initCounterAnimation();
         initWineCardEffects();
+        initStorytelling();
 
         // Desktop only features
         if (window.innerWidth >= 768) {
