@@ -1601,6 +1601,13 @@ p {
     outline-offset: 2px;
 }
 
+/* Esconde cursor padrão no desktop */
+@media (min-width: 768px) {
+    * {
+        cursor: none !important;
+    }
+}
+
 /* Respeita preferência de movimento reduzido */
 @media (prefers-reduced-motion: reduce) {
     *,
