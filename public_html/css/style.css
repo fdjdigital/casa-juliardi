@@ -916,60 +916,131 @@ p {
     border: 1px solid var(--color-gray-dark);
     transition: var(--transition-base);
     overflow: hidden;
+    position: relative;
+}
+
+/* Efeito de brilho que percorre o card no hover */
+.vinho-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(201, 169, 98, 0.1),
+        rgba(201, 169, 98, 0.2),
+        rgba(201, 169, 98, 0.1),
+        transparent
+    );
+    transition: left 0.7s ease-in-out;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.vinho-card:hover::before {
+    left: 100%;
 }
 
 .vinho-card:hover {
     border-color: var(--color-gold);
     transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-lg), 0 0 30px rgba(201, 169, 98, 0.15);
 }
 
 .vinho-image {
     aspect-ratio: 3/4;
     background: linear-gradient(180deg, var(--color-black-medium) 0%, var(--color-black) 100%);
     position: relative;
+    overflow: hidden;
 }
 
+/* Container interno para o zoom da imagem */
 .vinho-image::before {
     content: '';
     position: absolute;
     inset: 0;
     background: radial-gradient(circle at center, rgba(201, 169, 98, 0.1) 0%, transparent 70%);
+    z-index: 2;
+    transition: opacity 0.4s ease;
+}
+
+/* Efeito de brilho sutil na garrafa */
+.vinho-image::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 40%,
+        rgba(255, 255, 255, 0.03) 50%,
+        transparent 60%
+    );
+    transform: rotate(0deg);
+    transition: transform 0.6s ease;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.vinho-card:hover .vinho-image::after {
+    transform: rotate(20deg) translateY(10%);
 }
 
 .vinho-image.cabernet {
     background: url('../assets/images/cabernet.png');
-    background-size: cover;
+    background-size: 105%;
     background-position: center;
+    transition: background-size 0.5s ease;
 }
 .vinho-image.merlot {
     background: url('../assets/images/merlot.png');
-    background-size: cover;
+    background-size: 105%;
     background-position: center;
+    transition: background-size 0.5s ease;
 }
 .vinho-image.marselan {
     background: url('../assets/images/marselan.png');
-    background-size: cover;
+    background-size: 105%;
     background-position: center;
+    transition: background-size 0.5s ease;
 }
 .vinho-image.legado {
     background: url('../assets/images/legado.png');
-    background-size: cover;
+    background-size: 105%;
     background-position: center;
+    transition: background-size 0.5s ease;
 }
 .vinho-image.cuvee-blanc {
     background: url('../assets/images/cuvee-blanc.png');
-    background-size: cover;
+    background-size: 105%;
     background-position: center;
+    transition: background-size 0.5s ease;
 }
 .vinho-image.cuvee-rose {
     background: url('../assets/images/cuvee-rose.png');
-    background-size: cover;
+    background-size: 105%;
     background-position: center;
+    transition: background-size 0.5s ease;
+}
+
+/* Zoom suave nas imagens no hover */
+.vinho-card:hover .vinho-image.cabernet,
+.vinho-card:hover .vinho-image.merlot,
+.vinho-card:hover .vinho-image.marselan,
+.vinho-card:hover .vinho-image.legado,
+.vinho-card:hover .vinho-image.cuvee-blanc,
+.vinho-card:hover .vinho-image.cuvee-rose {
+    background-size: 115%;
 }
 
 .vinho-content {
     padding: var(--spacing-md);
+    position: relative;
 }
 
 .vinho-badge {
@@ -980,6 +1051,39 @@ p {
     text-transform: uppercase;
     color: var(--color-gold);
     margin-bottom: var(--spacing-xs);
+    padding: 4px 10px;
+    border: 1px solid rgba(201, 169, 98, 0.3);
+    background: rgba(201, 169, 98, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Animação de brilho no badge */
+.vinho-badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(201, 169, 98, 0.3),
+        transparent
+    );
+    transition: left 0.5s ease;
+}
+
+.vinho-card:hover .vinho-badge {
+    border-color: var(--color-gold);
+    background: rgba(201, 169, 98, 0.15);
+    box-shadow: 0 0 15px rgba(201, 169, 98, 0.2);
+}
+
+.vinho-card:hover .vinho-badge::before {
+    left: 100%;
 }
 
 .vinho-name {
@@ -987,17 +1091,38 @@ p {
     color: var(--color-white);
     margin-bottom: var(--spacing-sm);
     line-height: 1.3;
+    transition: color 0.3s ease;
+}
+
+.vinho-card:hover .vinho-name {
+    color: var(--color-gold-light);
 }
 
 .vinho-description {
     font-size: 0.85rem;
     line-height: 1.7;
     margin-bottom: var(--spacing-sm);
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.vinho-card:hover .vinho-description {
+    opacity: 1;
 }
 
 .vinho-details {
     padding-top: var(--spacing-sm);
     border-top: 1px solid var(--color-gray-dark);
+    opacity: 0.6;
+    transform: translateY(5px);
+    transition: all 0.4s ease;
+}
+
+/* Reveal progressivo dos detalhes no hover */
+.vinho-card:hover .vinho-details {
+    opacity: 1;
+    transform: translateY(0);
+    border-top-color: rgba(201, 169, 98, 0.3);
 }
 
 .vinho-detail {
@@ -1005,10 +1130,20 @@ p {
     font-size: 0.75rem;
     color: var(--color-gray);
     margin-bottom: 0.25rem;
+    transition: color 0.3s ease;
+}
+
+.vinho-card:hover .vinho-detail {
+    color: var(--color-gray-light);
 }
 
 .vinho-detail strong {
     color: var(--color-gray-light);
+    transition: color 0.3s ease;
+}
+
+.vinho-card:hover .vinho-detail strong {
+    color: var(--color-gold);
 }
 
 /* Exclusividade */
@@ -1464,4 +1599,21 @@ p {
 :focus-visible {
     outline: 2px solid var(--color-gold);
     outline-offset: 2px;
+}
+
+/* Respeita preferência de movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .vinho-card::before,
+    .vinho-badge::before,
+    .vinho-image::after {
+        display: none;
+    }
 }
