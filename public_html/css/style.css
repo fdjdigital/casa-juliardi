@@ -1194,6 +1194,196 @@ p {
 }
 
 /* ========================================
+   Mapa Section
+   ======================================== */
+.mapa-section {
+    position: relative;
+    background: var(--color-black);
+}
+
+.mapa-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 600px;
+}
+
+.mapa-overlay {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-2xl);
+    background: linear-gradient(135deg, var(--color-black) 0%, var(--color-black-light) 100%);
+    position: relative;
+    z-index: 2;
+}
+
+.mapa-overlay::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100px;
+    background: linear-gradient(90deg, transparent, var(--color-black));
+    z-index: 3;
+    pointer-events: none;
+}
+
+.mapa-content {
+    max-width: 500px;
+    margin-left: auto;
+    padding-right: var(--spacing-xl);
+}
+
+.mapa-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    color: var(--color-white);
+    line-height: 1.2;
+    margin-bottom: var(--spacing-md);
+}
+
+.mapa-description {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--color-gray-light);
+    margin-bottom: var(--spacing-lg);
+}
+
+.mapa-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.mapa-info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+}
+
+.mapa-info-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    background: rgba(201, 169, 98, 0.1);
+    border: 1px solid var(--color-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mapa-info-icon.route::before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    background-color: var(--color-gold);
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/%3E%3Cpolyline points='9,22 9,12 15,12 15,22'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/%3E%3Cpolyline points='9,22 9,12 15,12 15,22'/%3E%3C/svg%3E");
+    -webkit-mask-size: contain;
+    mask-size: contain;
+}
+
+.mapa-info-icon.pin::before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    background-color: var(--color-gold);
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z'/%3E%3Ccircle cx='12' cy='10' r='3'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z'/%3E%3Ccircle cx='12' cy='10' r='3'/%3E%3C/svg%3E");
+    -webkit-mask-size: contain;
+    mask-size: contain;
+}
+
+.mapa-info-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.mapa-info-text strong {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-white);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.mapa-info-text span {
+    font-size: 0.9rem;
+    color: var(--color-gray);
+    line-height: 1.5;
+}
+
+.mapa-buttons {
+    display: flex;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+}
+
+.mapa-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    font-size: 0.85rem;
+}
+
+.mapa-btn svg {
+    flex-shrink: 0;
+}
+
+.mapa-embed {
+    position: relative;
+    min-height: 600px;
+}
+
+.mapa-embed iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Responsive Mapa */
+@media (max-width: 968px) {
+    .mapa-container {
+        grid-template-columns: 1fr;
+    }
+
+    .mapa-overlay {
+        padding: var(--spacing-xl);
+    }
+
+    .mapa-overlay::after {
+        display: none;
+    }
+
+    .mapa-content {
+        max-width: 100%;
+        margin: 0;
+        padding-right: 0;
+    }
+
+    .mapa-embed {
+        min-height: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    .mapa-buttons {
+        flex-direction: column;
+    }
+
+    .mapa-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ========================================
    Contato Section
    ======================================== */
 .contato {
