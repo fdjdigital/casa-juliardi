@@ -1603,7 +1603,23 @@ p {
 
 /* Esconde cursor padrão no desktop */
 @media (min-width: 768px) {
-    * {
+    html, body {
+        cursor: none !important;
+    }
+
+    *,
+    *::before,
+    *::after,
+    a, button, input, textarea, select,
+    [role="button"],
+    [onclick] {
+        cursor: none !important;
+    }
+
+    /* Força cursor invisível mesmo em estados ativos */
+    *:hover,
+    *:focus,
+    *:active {
         cursor: none !important;
     }
 }
