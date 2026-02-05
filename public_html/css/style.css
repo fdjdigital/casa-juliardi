@@ -766,7 +766,7 @@ p {
 }
 
 .timeline-image.breno {
-    background: linear-gradient(135deg, rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url('../assets/images/breno.jpg');
+    background: linear-gradient(135deg, rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url('../assets/images/breno.jpg?v=2');
     background-size: cover;
     background-position: center top;
 }
