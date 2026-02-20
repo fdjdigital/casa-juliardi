@@ -631,12 +631,210 @@
         initRevealOnScroll();
         initCounterAnimation();
         initWineCardEffects();
+        init3DViewer();
         initStorytelling();
 
         // Desktop only features
         if (window.innerWidth >= 768) {
             initCursorEffect();
         }
+    }
+
+    // ========================================
+    // 3D Viewer (Foto + 3D dual mode)
+    // ========================================
+    function init3DViewer() {
+        var modal = document.getElementById('viewer3d-modal');
+        var modelViewer = document.getElementById('viewer3d-model');
+        var titleEl = document.getElementById('viewer3d-title');
+        var badgeEl = document.getElementById('viewer3d-badge');
+        var closeBtn = document.getElementById('viewer3d-close');
+        var toggleBtn = document.getElementById('viewer3d-toggle');
+        var toggleText = document.getElementById('viewer3d-toggle-text');
+        var photoMode = document.getElementById('viewer3d-photo-mode');
+        var threeDMode = document.getElementById('viewer3d-3d-mode');
+        var photoEl = document.getElementById('viewer3d-photo');
+        var instructionsEl = document.getElementById('viewer3d-instructions');
+        var backdrop = modal ? modal.querySelector('.viewer3d-backdrop') : null;
+        var buttons = document.querySelectorAll('.btn-3d-view');
+
+        if (!modal || !modelViewer || buttons.length === 0) return;
+
+        var currentModelId = '';
+        var is3DMode = false;
+        var modelLoaded = {};
+
+        // Zoom state for photo
+        var scale = 1;
+        var panX = 0;
+        var panY = 0;
+        var isDragging = false;
+        var startX = 0;
+        var startY = 0;
+
+        function updatePhotoTransform() {
+            photoEl.style.transform = 'scale(' + scale + ') translate(' + panX + 'px, ' + panY + 'px)';
+        }
+
+        function resetZoom() {
+            scale = 1;
+            panX = 0;
+            panY = 0;
+            updatePhotoTransform();
+        }
+
+        // Mouse wheel zoom
+        photoMode.addEventListener('wheel', function(e) {
+            e.preventDefault();
+            var delta = e.deltaY > 0 ? -0.15 : 0.15;
+            scale = Math.max(1, Math.min(5, scale + delta));
+            if (scale === 1) { panX = 0; panY = 0; }
+            updatePhotoTransform();
+        }, { passive: false });
+
+        // Drag to pan
+        photoMode.addEventListener('mousedown', function(e) {
+            if (scale <= 1) return;
+            isDragging = true;
+            startX = e.clientX - panX;
+            startY = e.clientY - panY;
+        });
+
+        photoMode.addEventListener('mousemove', function(e) {
+            if (!isDragging) return;
+            panX = e.clientX - startX;
+            panY = e.clientY - startY;
+            updatePhotoTransform();
+        });
+
+        window.addEventListener('mouseup', function() { isDragging = false; });
+
+        // Touch zoom/pan
+        var lastTouchDist = 0;
+        photoMode.addEventListener('touchstart', function(e) {
+            if (e.touches.length === 2) {
+                var dx = e.touches[0].clientX - e.touches[1].clientX;
+                var dy = e.touches[0].clientY - e.touches[1].clientY;
+                lastTouchDist = Math.sqrt(dx * dx + dy * dy);
+            } else if (e.touches.length === 1 && scale > 1) {
+                isDragging = true;
+                startX = e.touches[0].clientX - panX;
+                startY = e.touches[0].clientY - panY;
+            }
+        }, { passive: true });
+
+        photoMode.addEventListener('touchmove', function(e) {
+            if (e.touches.length === 2) {
+                e.preventDefault();
+                var dx = e.touches[0].clientX - e.touches[1].clientX;
+                var dy = e.touches[0].clientY - e.touches[1].clientY;
+                var dist = Math.sqrt(dx * dx + dy * dy);
+                var delta = (dist - lastTouchDist) * 0.01;
+                scale = Math.max(1, Math.min(5, scale + delta));
+                if (scale === 1) { panX = 0; panY = 0; }
+                lastTouchDist = dist;
+                updatePhotoTransform();
+            } else if (isDragging && e.touches.length === 1) {
+                panX = e.touches[0].clientX - startX;
+                panY = e.touches[0].clientY - startY;
+                updatePhotoTransform();
+            }
+        }, { passive: false });
+
+        photoMode.addEventListener('touchend', function() { isDragging = false; });
+
+        // Double-click to reset zoom
+        photoMode.addEventListener('dblclick', function() { resetZoom(); });
+
+        function setPhotoMode() {
+            is3DMode = false;
+            photoMode.style.display = 'flex';
+            threeDMode.style.display = 'none';
+            toggleBtn.style.display = 'inline-flex';
+            badgeEl.textContent = 'Foto';
+            instructionsEl.innerHTML =
+                '<span class="viewer3d-instruction">' +
+                '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>' +
+                'Pinça para zoom</span>' +
+                '<span class="viewer3d-instruction">' +
+                '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5"/></svg>' +
+                'Duplo clique para resetar</span>';
+        }
+
+        function set3DMode() {
+            is3DMode = true;
+            photoMode.style.display = 'none';
+            threeDMode.style.display = 'block';
+            toggleBtn.style.display = 'none';
+            badgeEl.textContent = '3D Interativo';
+            // Load model on first switch
+            if (!modelLoaded[currentModelId]) {
+                modelViewer.setAttribute('src', 'assets/models/' + currentModelId + '.glb');
+                modelLoaded[currentModelId] = true;
+            }
+            instructionsEl.innerHTML =
+                '<span class="viewer3d-instruction">' +
+                '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 9l7 7 7-7"/></svg>' +
+                'Arraste para girar</span>' +
+                '<span class="viewer3d-instruction">' +
+                '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>' +
+                'Pinça para zoom</span>';
+        }
+
+        // Toggle button - só vai para 3D (sem volta)
+        toggleBtn.addEventListener('click', function() {
+            set3DMode();
+        });
+
+        function openViewer(modelId, modelName) {
+            currentModelId = modelId;
+            titleEl.textContent = modelName;
+            badgeEl.textContent = '3D Interativo';
+            toggleBtn.style.display = 'none';
+            photoMode.style.display = 'none';
+            threeDMode.style.display = 'block';
+            modelViewer.setAttribute('poster', 'assets/images/posters/' + modelId + '.webp');
+            modelViewer.setAttribute('src', 'assets/models/' + modelId + '.glb');
+            modelViewer.setAttribute('alt', 'Garrafa ' + modelName + ' - Casa Juliardi');
+            instructionsEl.innerHTML =
+                '<span class="viewer3d-instruction">' +
+                '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 9l7 7 7-7"/></svg>' +
+                'Arraste para girar</span>' +
+                '<span class="viewer3d-instruction">' +
+                '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>' +
+                'Pinça para zoom</span>';
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeViewer() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            setTimeout(function() {
+                if (!modal.classList.contains('active')) {
+                    modelViewer.removeAttribute('src');
+                    photoEl.src = '';
+                    modelLoaded = {};
+                }
+            }, 500);
+        }
+
+        buttons.forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                openViewer(btn.getAttribute('data-model'), btn.getAttribute('data-name'));
+            });
+        });
+
+        closeBtn.addEventListener('click', closeViewer);
+        backdrop.addEventListener('click', closeViewer);
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeViewer();
+            }
+        });
     }
 
     // ========================================

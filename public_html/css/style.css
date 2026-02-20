@@ -780,6 +780,13 @@ p {
     transform: scale(1);
 }
 
+@media (max-width: 768px) {
+    .story-bg.fioravante { background-position: center 5%; }
+    .story-bg.irene { background-position: center 15%; }
+    .story-bg.juliano { background-position: center 40%; }
+    .story-bg.breno { background-position: center 10%; }
+}
+
 .story-overlay {
     position: absolute;
     inset: 0;
@@ -792,12 +799,25 @@ p {
 }
 
 @media (max-width: 768px) {
+    .story-scene {
+        flex-direction: column;
+        align-items: stretch;
+        min-height: auto;
+    }
+
+    .story-bg {
+        position: relative;
+        height: 50vh;
+        min-height: 300px;
+        flex-shrink: 0;
+    }
+
     .story-overlay {
         background: linear-gradient(
             180deg,
-            rgba(0, 0, 0, 0.3) 0%,
-            rgba(0, 0, 0, 0.9) 50%,
-            rgba(0, 0, 0, 0.95) 100%
+            rgba(0, 0, 0, 0) 0%,
+            rgba(0, 0, 0, 0) 50%,
+            rgba(0, 0, 0, 0.8) 100%
         );
     }
 }
@@ -812,9 +832,12 @@ p {
 
 @media (max-width: 768px) {
     .story-content {
+        position: relative;
         margin-left: 0;
         padding: var(--spacing-lg);
-        padding-top: 50vh;
+        padding-top: var(--spacing-lg);
+        padding-bottom: var(--spacing-xl);
+        background: var(--color-black);
     }
 }
 
@@ -1942,6 +1965,283 @@ p {
         cursor: none !important;
     }
 }
+
+/* ========================================
+   3D Viewer Modal
+   ======================================== */
+
+.btn-3d-view {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: var(--spacing-sm);
+    padding: 0.6rem 1.2rem;
+    background: transparent;
+    border: 1px solid var(--color-gold);
+    color: var(--color-gold);
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.btn-3d-view:hover {
+    background: var(--color-gold);
+    color: var(--color-black);
+}
+
+.btn-3d-view svg {
+    transition: transform var(--transition-base);
+}
+
+.btn-3d-view:hover svg {
+    transform: rotateY(180deg);
+}
+
+/* Modal */
+.viewer3d-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.viewer3d-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.viewer3d-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.viewer3d-container {
+    position: relative;
+    width: 90vw;
+    height: 85vh;
+    max-width: 900px;
+    max-height: 700px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(201, 169, 98, 0.2);
+    background: radial-gradient(ellipse at center, #1a1a1a 0%, #0a0a0a 100%);
+    transform: scale(0.9) translateY(20px);
+    transition: transform 0.4s ease;
+}
+
+.viewer3d-modal.active .viewer3d-container {
+    transform: scale(1) translateY(0);
+}
+
+/* Header */
+.viewer3d-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(201, 169, 98, 0.15);
+}
+
+.viewer3d-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.viewer3d-badge {
+    font-family: var(--font-body);
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    background: rgba(201, 169, 98, 0.1);
+    padding: 0.3rem 0.8rem;
+    border: 1px solid rgba(201, 169, 98, 0.2);
+}
+
+.viewer3d-title {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--color-white);
+    margin: 0;
+}
+
+.viewer3d-close {
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--color-gray);
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    transition: all var(--transition-fast);
+}
+
+.viewer3d-close:hover {
+    color: var(--color-white);
+    border-color: var(--color-gold);
+}
+
+/* Header actions */
+.viewer3d-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+/* Toggle button */
+.viewer3d-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 1rem;
+    background: transparent;
+    border: 1px solid rgba(201, 169, 98, 0.4);
+    color: var(--color-gold);
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.viewer3d-toggle:hover {
+    background: rgba(201, 169, 98, 0.15);
+    border-color: var(--color-gold);
+}
+
+.viewer3d-toggle.active-3d {
+    background: var(--color-gold);
+    color: var(--color-black);
+}
+
+/* Body */
+.viewer3d-body {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Photo mode */
+.viewer3d-photo-mode {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    cursor: grab;
+    background: #0a0a0a;
+}
+
+.viewer3d-photo-mode:active {
+    cursor: grabbing;
+}
+
+.viewer3d-photo {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: transform 0.1s ease;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* 3D mode */
+.viewer3d-3d-mode {
+    width: 100%;
+    height: 100%;
+}
+
+/* AR Button */
+.viewer3d-ar-btn {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.2rem;
+    background: var(--color-gold);
+    color: var(--color-black);
+    border: none;
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    z-index: 10;
+}
+
+.viewer3d-ar-btn:hover {
+    background: var(--color-gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(201, 169, 98, 0.3);
+}
+
+/* Footer */
+.viewer3d-footer {
+    padding: 0.8rem 1.5rem;
+    border-top: 1px solid rgba(201, 169, 98, 0.1);
+}
+
+.viewer3d-instructions {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.viewer3d-instruction {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    color: var(--color-gray);
+    letter-spacing: 0.5px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .viewer3d-container {
+        width: 100vw;
+        height: 100vh;
+        max-width: none;
+        max-height: none;
+        border: none;
+    }
+
+    .viewer3d-title {
+        font-size: 1rem;
+    }
+
+    .viewer3d-instructions {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: center;
+    }
+}
+
+/* ========================================
+   End 3D Viewer
+   ======================================== */
 
 /* Respeita preferência de movimento reduzido */
 @media (prefers-reduced-motion: reduce) {
