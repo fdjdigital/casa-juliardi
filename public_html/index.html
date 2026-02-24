@@ -17,9 +17,6 @@
     <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
 
-    <!-- Model Viewer (Google) - Visualizador 3D -->
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
-
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/images/favicon.png">
 </head>
@@ -279,10 +276,6 @@
                                         <strong>Envelhecimento:</strong> 18 meses em barrica
                                     </span>
                                 </div>
-                                <button class="btn-3d-view" data-model="cabernet" data-name="Legacy Cabernet Sauvignon">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-                                    Ver em 3D
-                                </button>
                             </div>
                         </article>
 
@@ -302,10 +295,6 @@
                                         <strong>Envelhecimento:</strong> 12 meses em barrica
                                     </span>
                                 </div>
-                                <button class="btn-3d-view" data-model="merlot" data-name="Legacy Merlot">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-                                    Ver em 3D
-                                </button>
                             </div>
                         </article>
 
@@ -325,10 +314,6 @@
                                         <strong>Envelhecimento:</strong> 15 meses em barrica
                                     </span>
                                 </div>
-                                <button class="btn-3d-view" data-model="marselan" data-name="Legacy Marselan">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-                                    Ver em 3D
-                                </button>
                             </div>
                         </article>
 
@@ -362,10 +347,6 @@
                                         <strong>Maturação:</strong> 36 meses sur lie
                                     </span>
                                 </div>
-                                <button class="btn-3d-view" data-model="cuvee-blanc" data-name="Cuvée Blanc">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-                                    Ver em 3D
-                                </button>
                             </div>
                         </article>
 
@@ -385,10 +366,6 @@
                                         <strong>Maturação:</strong> 36 meses sur lie
                                     </span>
                                 </div>
-                                <button class="btn-3d-view" data-model="cuvee-rose" data-name="Cuvée Rosé">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-                                    Ver em 3D
-                                </button>
                             </div>
                         </article>
 
@@ -408,10 +385,6 @@
                                         <strong>Envelhecimento:</strong> 24 meses em barrica
                                     </span>
                                 </div>
-                                <button class="btn-3d-view" data-model="legado" data-name="Cuvée Legado">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-                                    Ver em 3D
-                                </button>
                             </div>
                         </article>
                     </div>
@@ -425,6 +398,126 @@
                         <p class="exclusividade-text">
                             Cada garrafa da Casa Juliardi é individualmente numerada, certificando sua autenticidade e exclusividade. Com produção limitada a 250 unidades por safra, nossos vinhos são destinados a verdadeiros apreciadores que compreendem o valor de um legado.
                         </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section class="quiz" id="quiz">
+            <div class="container">
+                <div class="section-header" data-aos="fade-up">
+                    <span class="section-badge">Experiência</span>
+                    <h2 class="section-title">Descubra Seu Vinho Ideal</h2>
+                    <p class="section-subtitle">Responda 4 perguntas e encontre o rótulo perfeito para você</p>
+                </div>
+
+                <div class="quiz-container" data-aos="fade-up">
+                    <!-- Barra de progresso -->
+                    <div class="quiz-progress">
+                        <div class="quiz-progress-step active" data-step="1"><span>1</span></div>
+                        <div class="quiz-progress-line"><div class="quiz-progress-fill"></div></div>
+                        <div class="quiz-progress-step" data-step="2"><span>2</span></div>
+                        <div class="quiz-progress-line"><div class="quiz-progress-fill"></div></div>
+                        <div class="quiz-progress-step" data-step="3"><span>3</span></div>
+                        <div class="quiz-progress-line"><div class="quiz-progress-fill"></div></div>
+                        <div class="quiz-progress-step" data-step="4"><span>4</span></div>
+                    </div>
+
+                    <!-- Pergunta 1 -->
+                    <div class="quiz-question active" data-question="1">
+                        <h3 class="quiz-question-title">Qual ocasião você está planejando?</h3>
+                        <div class="quiz-options">
+                            <button class="quiz-option" data-scores="cabernet:2,legado:2">
+                                <span class="quiz-option-icon">&#127860;</span>
+                                <span class="quiz-option-text">Jantar especial</span>
+                            </button>
+                            <button class="quiz-option" data-scores="cuvee-blanc:2,cuvee-rose:1">
+                                <span class="quiz-option-icon">&#127870;</span>
+                                <span class="quiz-option-text">Celebração ou brinde</span>
+                            </button>
+                            <button class="quiz-option" data-scores="marselan:2,legado:1">
+                                <span class="quiz-option-icon">&#127873;</span>
+                                <span class="quiz-option-text">Um presente memorável</span>
+                            </button>
+                            <button class="quiz-option" data-scores="merlot:2,cuvee-rose:2">
+                                <span class="quiz-option-icon">&#9749;</span>
+                                <span class="quiz-option-text">Momento de relaxamento</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Pergunta 2 -->
+                    <div class="quiz-question" data-question="2">
+                        <h3 class="quiz-question-title">Você prefere vinhos mais...</h3>
+                        <div class="quiz-options">
+                            <button class="quiz-option" data-scores="cabernet:2,marselan:2">
+                                <span class="quiz-option-icon">&#127863;</span>
+                                <span class="quiz-option-text">Secos e estruturados</span>
+                            </button>
+                            <button class="quiz-option" data-scores="cuvee-blanc:2,cuvee-rose:2">
+                                <span class="quiz-option-icon">&#127815;</span>
+                                <span class="quiz-option-text">Frutados e leves</span>
+                            </button>
+                            <button class="quiz-option" data-scores="merlot:2,legado:2">
+                                <span class="quiz-option-icon">&#9878;</span>
+                                <span class="quiz-option-text">Equilibrados e versáteis</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Pergunta 3 -->
+                    <div class="quiz-question" data-question="3">
+                        <h3 class="quiz-question-title">Com qual tipo de comida pretende harmonizar?</h3>
+                        <div class="quiz-options">
+                            <button class="quiz-option" data-scores="cabernet:2,marselan:1,legado:1">
+                                <span class="quiz-option-icon">&#129385;</span>
+                                <span class="quiz-option-text">Carnes vermelhas e grelhados</span>
+                            </button>
+                            <button class="quiz-option" data-scores="merlot:2,marselan:1">
+                                <span class="quiz-option-icon">&#127837;</span>
+                                <span class="quiz-option-text">Massas e risotos</span>
+                            </button>
+                            <button class="quiz-option" data-scores="cuvee-blanc:2,cuvee-rose:1">
+                                <span class="quiz-option-icon">&#128031;</span>
+                                <span class="quiz-option-text">Peixes e frutos do mar</span>
+                            </button>
+                            <button class="quiz-option" data-scores="cuvee-rose:2,cuvee-blanc:1">
+                                <span class="quiz-option-icon">&#129472;</span>
+                                <span class="quiz-option-text">Aperitivos e entradas leves</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Pergunta 4 -->
+                    <div class="quiz-question" data-question="4">
+                        <h3 class="quiz-question-title">O que mais combina com você?</h3>
+                        <div class="quiz-options">
+                            <button class="quiz-option" data-scores="cabernet:2,marselan:2">
+                                <span class="quiz-option-icon">&#128293;</span>
+                                <span class="quiz-option-text">Tinto encorpado com personalidade</span>
+                            </button>
+                            <button class="quiz-option" data-scores="cuvee-blanc:2,cuvee-rose:2">
+                                <span class="quiz-option-icon">&#10024;</span>
+                                <span class="quiz-option-text">Espumante refrescante e elegante</span>
+                            </button>
+                            <button class="quiz-option" data-scores="legado:3,merlot:1">
+                                <span class="quiz-option-icon">&#128142;</span>
+                                <span class="quiz-option-text">Algo sofisticado e surpreendente</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Resultado -->
+                    <div class="quiz-result" id="quiz-result">
+                        <div class="quiz-result-badge">Seu vinho ideal</div>
+                        <h3 class="quiz-result-name" id="quiz-result-name"></h3>
+                        <p class="quiz-result-description" id="quiz-result-description"></p>
+                        <p class="quiz-result-phrase" id="quiz-result-phrase"></p>
+                        <div class="quiz-result-actions">
+                            <a href="#contato" class="btn btn-primary quiz-cta">Quero Conhecer</a>
+                            <button class="btn btn-outline quiz-restart" id="quiz-restart">Refazer Quiz</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -604,71 +697,6 @@
             <div class="age-modal-buttons">
                 <button class="btn btn-primary" id="age-confirm">Sim, tenho mais de 18 anos</button>
                 <button class="btn btn-outline" id="age-deny">Não, sou menor de idade</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Visualizador -->
-    <div class="viewer3d-modal" id="viewer3d-modal">
-        <div class="viewer3d-backdrop"></div>
-        <div class="viewer3d-container">
-            <div class="viewer3d-header">
-                <div class="viewer3d-title-wrapper">
-                    <span class="viewer3d-badge" id="viewer3d-badge">Foto</span>
-                    <h3 class="viewer3d-title" id="viewer3d-title">Garrafa</h3>
-                </div>
-                <div class="viewer3d-header-actions">
-                    <button class="viewer3d-toggle" id="viewer3d-toggle">
-                        <svg class="viewer3d-toggle-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
-                        <span id="viewer3d-toggle-text">Ver em 3D</span>
-                    </button>
-                    <button class="viewer3d-close" id="viewer3d-close" aria-label="Fechar">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                    </button>
-                </div>
-            </div>
-            <div class="viewer3d-body">
-                <!-- Modo Foto -->
-                <div class="viewer3d-photo-mode" id="viewer3d-photo-mode">
-                    <img class="viewer3d-photo" id="viewer3d-photo" src="" alt="" draggable="false">
-                </div>
-                <!-- Modo 3D -->
-                <div class="viewer3d-3d-mode" id="viewer3d-3d-mode" style="display:none;">
-                    <model-viewer
-                        id="viewer3d-model"
-                        alt="Garrafa Casa Juliardi"
-                        camera-controls
-                        touch-action="pan-y"
-                        auto-rotate
-                        auto-rotate-delay="2000"
-                        rotation-per-second="12deg"
-                        loading="lazy"
-                        ar
-                        ar-modes="webxr scene-viewer quick-look"
-                        tone-mapping="commerce"
-                        exposure="1.4"
-                        shadow-intensity="1"
-                        shadow-softness="0.8"
-                        environment-image="neutral"
-                        camera-orbit="0deg 75deg 0.4m"
-                        min-camera-orbit="auto auto 0.15m"
-                        max-camera-orbit="auto auto 0.8m"
-                        field-of-view="28deg"
-                        style="width: 100%; height: 100%; background-color: #0a0a0a;">
-                        <button slot="ar-button" class="viewer3d-ar-btn">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7V5a2 2 0 012-2h2"/><path d="M17 3h2a2 2 0 012 2v2"/><path d="M21 17v2a2 2 0 01-2 2h-2"/><path d="M7 21H5a2 2 0 01-2-2v-2"/><circle cx="12" cy="12" r="3"/></svg>
-                            Ver na sua mesa
-                        </button>
-                    </model-viewer>
-                </div>
-            </div>
-            <div class="viewer3d-footer">
-                <div class="viewer3d-instructions" id="viewer3d-instructions">
-                    <span class="viewer3d-instruction">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-                        Pinça para zoom
-                    </span>
-                </div>
             </div>
         </div>
     </div>
